@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Savings</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="action_add">Add goal</string>
+    <string name="title_activity_image">@string/app_name</string>
+    <string name="endpoint_savings">http://qapital-ios-testtask.herokuapp.com/savingsgoals</string>
+    <string name="endpoint_users">http://qapital-ios-testtask.herokuapp.com/users</string>
+</resources>

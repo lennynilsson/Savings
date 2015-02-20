@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/SavingsActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/SavingsActionBar</item>
+
+        <!--
+            <item name="android:background">@color/white</item>
+            <item name="android:windowBackground">@color/white</item>
+            <item name="android:colorBackground">@color/white</item>-->
+    </style>
+
+        <!-- Action bar theme. -->
+    <style name="SavingsActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:background">@drawable/background</item>
+        <item name="android:color">@color/black</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/background</item>
+        <item name="color">@color/black</item>
+    </style>
+
+    <drawable name="background">@color/white</drawable>
+    <drawable name="white">@color/white</drawable>
+</resources>
