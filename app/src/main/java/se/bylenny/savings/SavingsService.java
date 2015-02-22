@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.CloseableWrappedIterable;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
@@ -25,24 +24,14 @@ import se.bylenny.savings.models.internal.Status;
 import se.bylenny.savings.models.internal.User;
 
 public class SavingsService extends Service {
-    private static final String TAG = "SavingsService";
-
-    private static final String ACTION_FETCH = "se.bylenny.flickrer.action.FETCH";
-
     public static final int RESULT_FETCH_SUCCESS = 1;
     public static final int RESULT_FETCH_ERROR = -1;
-
+    private static final String TAG = "SavingsService";
+    private static final String ACTION_FETCH = "se.bylenny.flickrer.action.FETCH";
     private static SavingsDatabaseHelper helper;
+    private final IBinder binder = new SavingsBinder();
     private boolean isFetching = false;
     private ThreadPoolExecutor executor;
-
-    public class SavingsBinder extends Binder {
-        SavingsBinder getService() {
-            return SavingsBinder.this;
-        }
-    }
-
-    private final IBinder binder = new SavingsBinder();
 
     public SavingsService() {
         executor = new ThreadPoolExecutor(0, 3, 10, TimeUnit.SECONDS,
@@ -59,6 +48,12 @@ public class SavingsService extends Service {
         context.startService(intent);
     }
 
+    public static SavingsDatabaseHelper getHelper(Context context) {
+        if (helper == null) {
+            helper = OpenHelperManager.getHelper(context, SavingsDatabaseHelper.class);
+        }
+        return helper;
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -100,29 +95,29 @@ public class SavingsService extends Service {
         Log.d(TAG, "Requesting user " + userId);
         request.call(getUserUrl(userId), UserResponse.class, executor,
                 new RestRequest.ResponseListener<UserResponse>() {
-            @Override
-            public void onSuccess(UserResponse response) {
-                try {
-                    Log.d(TAG, "Got user");
-                    Dao<User, Integer> userDao = getHelper(getApplicationContext()).getUserDao();
-                    User user = userDao.queryForId(userId);
-                    if (null == user) {
-                        user = new User();
-                        user.setId(userId);
+                    @Override
+                    public void onSuccess(UserResponse response) {
+                        try {
+                            Dao<User, Integer> userDao = getHelper(getApplicationContext()).getUserDao();
+                            User user = userDao.queryForId(userId);
+                            if (null == user) {
+                                user = new User();
+                                user.setId(userId);
+                            }
+                            user.setDisplayName(response.displayName);
+                            user.setAvatarUri(response.avatarUrl);
+                            userDao.createOrUpdate(user);
+                            MessageBus.send(RESULT_FETCH_SUCCESS);
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Unable to save user", e);
+                        }
                     }
-                    user.setDisplayName(response.displayName);
-                    user.setAvatarUri(response.avatarUrl);
-                    userDao.createOrUpdate(user);
-                } catch (SQLException e) {
-                    Log.e(TAG, "Unable to save user", e);
-                }
-            }
 
-            @Override
-            public void onFailure(String error) {
-                Log.e(TAG, error);
-            }
-        });
+                    @Override
+                    public void onFailure(String error) {
+                        Log.e(TAG, error);
+                    }
+                });
     }
 
     private void fetchSavingsGoals() {
@@ -148,19 +143,13 @@ public class SavingsService extends Service {
                             }
                         }
                     }
+
                     @Override
                     public void onFailure(String error) {
                         Log.e(TAG, error == null ? "" : error);
                         MessageBus.send(RESULT_FETCH_ERROR);
                     }
                 });
-    }
-
-    public static SavingsDatabaseHelper getHelper(Context context) {
-        if (helper == null) {
-            helper = OpenHelperManager.getHelper(context, SavingsDatabaseHelper.class);
-        }
-        return helper;
     }
 
     private void destroyHelper() {
@@ -203,7 +192,6 @@ public class SavingsService extends Service {
                     }
                     user.setSavingsGoal(savingsGoal);
                     userDao.createOrUpdate(user);
-                    Log.d(TAG, "Saved user " + user.getId());
                 }
                 savingsGoal.getConnectedUsers().updateAll();
             }
@@ -215,10 +203,8 @@ public class SavingsService extends Service {
             }
             savingsGoal.setUser(user);
             savingsGoalDao.createOrUpdate(savingsGoal);
-            Log.d(TAG, "Saved user " + user.getId());
         }
         for (User u : userDao.queryForAll()) {
-            Log.d(TAG, "Loop user: " + u.getId());
             String image = u.getAvatarUri();
             if (null == image) {
                 fetchUser(u.getId());
@@ -229,5 +215,11 @@ public class SavingsService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
+    }
+
+    public class SavingsBinder extends Binder {
+        SavingsBinder getService() {
+            return SavingsBinder.this;
+        }
     }
 }

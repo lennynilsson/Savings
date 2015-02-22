@@ -6,6 +6,9 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+/**
+ * An ImageView with forced aspect ratio
+ */
 public class FixedImageView extends ImageView {
 
     private float aspect = 1;
@@ -28,7 +31,7 @@ public class FixedImageView extends ImageView {
     }
 
     @Override
-    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         super.onMeasure(
                 MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),

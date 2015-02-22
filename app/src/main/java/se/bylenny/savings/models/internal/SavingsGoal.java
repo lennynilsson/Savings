@@ -1,9 +1,6 @@
 package se.bylenny.savings.models.internal;
 
-import android.net.Uri;
-
 import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -29,8 +26,8 @@ public class SavingsGoal {
     @DatabaseField(canBeNull = false)
     private String name;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh=true,
-            canBeNull=true, maxForeignAutoRefreshLevel = 1)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true,
+            canBeNull = true, maxForeignAutoRefreshLevel = 1)
     private User user;
 
     @ForeignCollectionField(eager = true)

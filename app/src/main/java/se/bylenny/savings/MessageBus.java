@@ -5,18 +5,21 @@ import android.os.Looper;
 
 import com.squareup.otto.Bus;
 
+/**
+ * Pass messages with Otto bus
+ */
 public class MessageBus extends Bus {
 
     private static final MessageBus BUS = new MessageBus();
     private static final String MESSAGE_BUS = "MESSAGE_BUS";
 
-    public static MessageBus getInstance() {
-        return BUS;
-    }
-
     private MessageBus() {
         super(MESSAGE_BUS);
         // No instances.
+    }
+
+    public static MessageBus getInstance() {
+        return BUS;
     }
 
     public static void send(final Object event) {

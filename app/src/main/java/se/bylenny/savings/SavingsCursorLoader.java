@@ -14,6 +14,9 @@ import java.sql.SQLException;
 
 import se.bylenny.savings.models.internal.SavingsGoal;
 
+/**
+ * A Cursor Loader for the Savings database
+ */
 public class SavingsCursorLoader extends CursorLoader {
 
     private static final String TAG = "SavingsCursorLoader";
@@ -30,7 +33,7 @@ public class SavingsCursorLoader extends CursorLoader {
             Dao<SavingsGoal, Integer> dao = helper.getSavingsGoalDao();
             PreparedQuery<SavingsGoal> query = dao.queryBuilder().prepare();
             CloseableIterator<SavingsGoal> iterator = dao.iterator(query);
-            AndroidDatabaseResults results = (AndroidDatabaseResults)iterator.getRawResults();
+            AndroidDatabaseResults results = (AndroidDatabaseResults) iterator.getRawResults();
             Cursor cursor = results.getRawCursor();
             return cursor;
         } catch (SQLException e) {

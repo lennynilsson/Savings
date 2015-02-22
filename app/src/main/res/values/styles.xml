@@ -14,7 +14,7 @@
             <item name="android:colorBackground">@color/white</item>-->
     </style>
 
-        <!-- Action bar theme. -->
+    <!-- Action bar theme. -->
     <style name="SavingsActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:background">@drawable/background</item>
         <item name="android:color">@color/black</item>

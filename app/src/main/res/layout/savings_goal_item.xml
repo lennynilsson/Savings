@@ -1,60 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <se.bylenny.savings.FixedImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/image"
         android:layout_gravity="center" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLargeInverse"
-            android:text="@string/placeholder"
             android:id="@+id/title"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:textSize="42dp"
-            android:gravity="center_horizontal" />
-
-        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMediumInverse"
-            android:text="@string/placeholder"
-            android:id="@+id/saved"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
+            android:gravity="center_horizontal"
+            android:text="@string/placeholder"
             android:textAlignment="center"
-            android:textSize="26dp"
-            android:gravity="center_horizontal" />
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/white"
+            android:textSize="42dp" />
+
+        <TextView
+            android:id="@+id/saved"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="@string/placeholder"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMediumInverse"
+            android:textColor="@color/white"
+            android:textSize="26dp" />
 
         <ProgressBar
+            android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
-            android:progressDrawable="@drawable/progressbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/vpadding"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/vpadding"
             android:layout_marginTop="@dimen/vpadding"
-            android:id="@+id/progress"
+            android:max="100"
             android:paddingLeft="@dimen/padding"
             android:paddingRight="@dimen/padding"
-            android:layout_gravity="center_horizontal"
-            android:max="100"
-            android:progress="50" />
+            android:progress="50"
+            android:progressDrawable="@drawable/progressbar" />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/connections"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/connections"></LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+        </LinearLayout>
 
     </LinearLayout>
 </FrameLayout>

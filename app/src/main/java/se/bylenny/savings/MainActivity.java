@@ -6,14 +6,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -46,8 +41,8 @@ public class MainActivity extends ActionBarActivity implements
         setContentView(R.layout.activity_main);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setColorSchemeResources(R.color.orange);
-        swipeRefreshLayout.setProgressBackgroundColor(R.color.white);
+        swipeRefreshLayout.setColorSchemeResources(R.color.turquoise);
+        swipeRefreshLayout.setProgressBackgroundColor(R.color.black);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         listView = (ListView) findViewById(R.id.listView);
@@ -76,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements
     protected void onResume() {
         super.onResume();
         MessageBus.subscribe(this);
-        reloadCursor();
+        //reloadCursor();
     }
 
     @Override
@@ -148,7 +143,7 @@ public class MainActivity extends ActionBarActivity implements
 
     private void reloadCursor() {
         Loader<Object> loader = getSupportLoaderManager().getLoader(1);
-        if (loader != null && ! loader.isReset()) {
+        if (loader != null && !loader.isReset()) {
             getSupportLoaderManager().restartLoader(1, null, this);
         } else {
             getSupportLoaderManager().initLoader(1, null, this);
@@ -166,7 +161,6 @@ public class MainActivity extends ActionBarActivity implements
     private void destroyCursor() {
         getSupportLoaderManager().destroyLoader(1);
     }
-
 
 
 }

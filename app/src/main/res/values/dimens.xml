@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="vpadding">5dp</dimen>
-    <dimen name="hpadding">7dp</dimen>
+    <dimen name="hpadding">10dp</dimen>
     <dimen name="padding">48dp</dimen>
+    <dimen name="image">32dp</dimen>
 </resources>

@@ -16,10 +16,9 @@ import se.bylenny.savings.models.internal.User;
 
 public class SavingsDatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private final String TAG = "SavingsDatabaseHelper";
     private static final String DATABASE_NAME = "savings.db";
     private static final int DATABASE_VERSION = 1;
-
+    private final String TAG = "SavingsDatabaseHelper";
     private Dao<User, Integer> userDao;
     private Dao<SavingsGoal, Integer> savingsGoalDao;
 

@@ -31,5 +31,4 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp-integration:1.1.0'
     compile 'com.squareup:otto:1.3.6'
     compile 'it.sephiroth.android.library.imagezoom:imagezoom:+'
-    compile 'de.hdodenhof:circleimageview:1.2.1'
 }

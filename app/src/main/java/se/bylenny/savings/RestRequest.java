@@ -1,11 +1,7 @@
 package se.bylenny.savings;
 
 import android.content.Context;
-import android.net.Uri;
-import android.net.http.HttpResponseCache;
-import android.os.Build;
 import android.os.Environment;
-import android.os.StatFs;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -18,16 +14,18 @@ import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 import java.util.concurrent.AbstractExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * A request to the REST API
+ * @param <T> The response type
+ */
 public class RestRequest<T> implements Runnable {
     private static final String TAG = "ApiRequest";
     private static OkUrlFactory factory;
@@ -38,13 +36,6 @@ public class RestRequest<T> implements Runnable {
     private String url;
     private ResponseListener<T> listener;
     private Class<T> type;
-
-    private OkUrlFactory getConnectionFactory() {
-        if (factory == null) {
-            factory = new OkUrlFactory(getClient());
-        }
-        return factory;
-    }
 
     private static OkHttpClient getClient() {
         if (client == null) {
@@ -57,6 +48,10 @@ public class RestRequest<T> implements Runnable {
         return client;
     }
 
+    /**
+     * Setup disk cache
+     * @param context The context
+     */
     public static void setup(final Context context) {
         if (!initialized) {
             new GlideBuilder(context).setDiskCache(new DiskCache.Factory() {
@@ -69,6 +64,13 @@ public class RestRequest<T> implements Runnable {
             });
             initialized = true;
         }
+    }
+
+    private OkUrlFactory getConnectionFactory() {
+        if (factory == null) {
+            factory = new OkUrlFactory(getClient());
+        }
+        return factory;
     }
 
     private ObjectMapper getMapper() {
@@ -89,7 +91,7 @@ public class RestRequest<T> implements Runnable {
     public void run() {
         InputStream stream = null;
         try {
-            Log.d(TAG, "Fetching "+ this.url);
+            Log.d(TAG, "Fetching " + this.url);
             URL url = new URL(this.url);
             HttpURLConnection connection = getConnectionFactory().open(url);
             connection.setUseCaches(true);
@@ -124,8 +126,22 @@ public class RestRequest<T> implements Runnable {
 
     }
 
+    /**
+     * The REST API response listener
+     * @param <T> The Response type
+     */
     public interface ResponseListener<T> {
+
+        /**
+         * Receive a REST API response
+         * @param response The response
+         */
         public void onSuccess(T response);
+
+        /**
+         * Receive a REST API error
+         * @param error The error
+         */
         public void onFailure(String error);
     }
 }

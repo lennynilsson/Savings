@@ -1,12 +1,7 @@
 package se.bylenny.savings.models.internal;
 
-import android.net.Uri;
-
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
-import java.net.URL;
 
 import se.bylenny.savings.models.DataModel;
 
@@ -22,8 +17,8 @@ public class User implements DataModel {
     @DatabaseField(canBeNull = true)
     private String avatarUri;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh=true,
-            canBeNull=true, maxForeignAutoRefreshLevel = 1)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true,
+            canBeNull = true, maxForeignAutoRefreshLevel = 1)
     private SavingsGoal savingsGoal;
 
     public User() {
